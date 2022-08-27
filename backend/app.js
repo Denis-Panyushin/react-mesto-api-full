@@ -21,9 +21,8 @@ mongoose.connect('mongodb://localhost:27017/mestodb', {
 
 app.use(requestLogger);
 
-app.use(cors);
 app.use(authorization);
-
+app.use(cors);
 app.use(auth);
 
 app.use('/', require('./routes/users'));
