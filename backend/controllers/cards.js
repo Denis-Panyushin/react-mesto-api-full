@@ -7,7 +7,7 @@ const { NOT_FOUND_ERROR_CODE } = require('../utils/constants');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send(cards))
+    .then((cards) => res.send({ cards }))
     .catch(next);
 };
 
@@ -15,7 +15,7 @@ module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new ValidationError('Переданы некорректные данные при создании карточки.');
@@ -34,7 +34,7 @@ module.exports.deleteCard = (req, res, next) => {
     .then((card) => {
       const cardOwnerId = String(card.owner);
       if (cardOwnerId === req.user._id) {
-        res.send({ data: card });
+        res.send({ card });
       } else {
         next(new NoCopyrightError('Нельзя удалить чужую карточку'));
       }
@@ -60,7 +60,7 @@ module.exports.likeCard = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new ValidationError('Переданы некорректные данные для постановки лайка.');
@@ -82,7 +82,7 @@ module.exports.dislikeCard = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((card) => res.send({ data: card }))
+    .then((card) => res.send({ card }))
     .catch((err) => {
       if (err.name === 'CastError') {
         throw new ValidationError('Переданы некорректные данные для постановки лайка.');
