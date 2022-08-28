@@ -15,7 +15,7 @@ module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
 
   Card.create({
-    name, link, owner: req.user._id,
+    name, link, owner: req.user._id, likes: {},
   })
     .then((card) => res.send({ card }))
     .catch((err) => {
@@ -54,7 +54,7 @@ module.exports.deleteCard = (req, res, next) => {
 module.exports.likeCard = (req, res, next) => {
   Card.findByIdAndUpdate(
     req.params.cardId,
-    { $addToSet: { likes: { _id: req.user._id } } },
+    { $addToSet: { likes: { _id: req.user } } },
     { new: true, runValidators: true },
   )
     .orFail(() => {
