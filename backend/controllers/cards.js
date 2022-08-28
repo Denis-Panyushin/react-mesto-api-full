@@ -7,7 +7,7 @@ const { NOT_FOUND_ERROR_CODE } = require('../utils/constants');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send({ cards }))
     .catch(next);
 };
 
