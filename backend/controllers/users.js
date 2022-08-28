@@ -10,7 +10,7 @@ const { NOT_FOUND_ERROR_CODE } = require('../utils/constants');
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send({ users }))
     .catch(next);
 };
 
@@ -21,7 +21,7 @@ module.exports.getUser = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.statusCode === NOT_FOUND_ERROR_CODE) {
         throw new NotFoundError(`Пользователь по указаному id:${req.params.userId} не найден.`);
@@ -87,7 +87,7 @@ module.exports.updateUser = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new ValidationError('Переданы некорктные данные при обновлении профиля');
@@ -107,7 +107,7 @@ module.exports.updateAvatar = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new ValidationError('Переданы некорктные данные при обновлении аватара');
