@@ -87,7 +87,7 @@ module.exports.updateUser = (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((user) => res.send({ user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new ValidationError('Переданы некорктные данные при обновлении профиля');
@@ -107,7 +107,7 @@ module.exports.updateAvatar = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     })
-    .then((user) => res.send({ user }))
+    .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
         throw new ValidationError('Переданы некорктные данные при обновлении аватара');
