@@ -5,7 +5,7 @@ const User = require('../models/user');
 const ValidationError = require('../errors/ValidationError');
 const NotFoundError = require('../errors/NotFoundError');
 
-const { JWT_SECRET = 'dev-key' } = process.env;
+const { JWT_SECRET = 'dev-secret' } = process.env;
 const { NOT_FOUND_ERROR_CODE } = require('../utils/constants');
 
 module.exports.getUsers = (req, res, next) => {
