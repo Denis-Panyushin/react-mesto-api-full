@@ -12,7 +12,7 @@ module.exports = (req, res, next) => {
   const token = authorization.replace('Bearer ', '');
   let payload;
   try {
-    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-secret', { expiresIn: '7d' });
+    payload = jwt.verify(token, NODE_ENV === 'production' ? JWT_SECRET : 'dev-key', { expiresIn: '7d' });
   } catch (err) {
     next(new NoAuthorization('Необходима авторизация'));
   }
