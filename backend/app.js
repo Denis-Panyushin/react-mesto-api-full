@@ -24,6 +24,12 @@ app.use(requestLogger);
 
 app.use(authorization);
 
+app.get('/crash-test', () => {
+  setTimeout(() => {
+    throw new Error('Сервер сейчас упадёт');
+  }, 0);
+});
+
 app.use(auth);
 
 app.use('/', require('./routes/users'));
