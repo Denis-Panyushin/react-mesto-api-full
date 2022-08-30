@@ -33,7 +33,7 @@ module.exports.deleteCard = (req, res, next) => {
       const cardId = String(card._id);
       const cardOwnerId = String(card.owner);
       if (cardOwnerId === req.user._id) {
-        Card.remove(cardId)
+        Card.deleteOne(cardId)
           .then((data) => {
             res.send({ data });
           })
