@@ -30,9 +30,10 @@ module.exports.createCard = (req, res, next) => {
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
     .then((card) => {
+      const cardId = String(card._id);
       const cardOwnerId = String(card.owner);
       if (cardOwnerId === req.user._id) {
-        Card.remove(req.params.cardId)
+        Card.remove(cardId)
           .then((data) => {
             res.send({ data });
           })
