@@ -29,14 +29,17 @@ module.exports.createCard = (req, res, next) => {
 
 module.exports.deleteCard = (req, res, next) => {
   Card.findById(req.params.cardId)
+    .orFail(() => {
+      throw new NotFoundError();
+    })
     .then((card) => {
       const cardOwnerId = String(card.owner);
       if (cardOwnerId === req.user._id) {
         card.remove().catch(next);
-        res.send({ card });
       } else {
         next(new NoCopyrightError('Нельзя удалить чужую карточку'));
       }
+      res.send({ card });
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -55,6 +58,9 @@ module.exports.likeCard = (req, res, next) => {
     { $addToSet: { likes: { _id: req.user._id } } },
     { new: true, runValidators: true },
   )
+    .orFail(() => {
+      throw new NotFoundError();
+    })
     .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -73,6 +79,9 @@ module.exports.dislikeCard = (req, res, next) => {
     { $pull: { likes: req.user._id } },
     { new: true, runValidators: true },
   )
+    .orFail(() => {
+      throw new NotFoundError();
+    })
     .then((card) => res.send(card))
     .catch((err) => {
       if (err.name === 'CastError') {

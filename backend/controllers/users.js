@@ -17,6 +17,9 @@ module.exports.getUsers = (req, res, next) => {
 
 module.exports.getUser = (req, res, next) => {
   User.findById(req.params.userId)
+    .orFail(() => {
+      throw new NotFoundError();
+    })
     .then((user) => res.send({ user }))
     .catch((err) => {
       if (err.statusCode === NOT_FOUND_ERROR_CODE) {
@@ -76,6 +79,9 @@ module.exports.updateUser = (req, res, next) => {
   const { name, about } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { name, about }, { new: true, runValidators: true })
+    .orFail(() => {
+      throw new NotFoundError();
+    })
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
@@ -92,6 +98,9 @@ module.exports.updateAvatar = async (req, res, next) => {
   const { avatar } = req.body;
 
   User.findByIdAndUpdate(req.user._id, { avatar }, { new: true, runValidators: true })
+    .orFail(() => {
+      throw new NotFoundError();
+    })
     .then((user) => res.send(user))
     .catch((err) => {
       if (err.name === 'ValidationError') {
